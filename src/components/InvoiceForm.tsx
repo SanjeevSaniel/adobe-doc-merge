@@ -90,25 +90,25 @@ const InvoiceForm: React.FC = () => {
     },
   });
 
-  const { setValue, watch } = form;
+  // const { setValue, watch } = form;
 
   // Watch changes in form values
-  const watchFormData = watch();
+  // const watchFormData = watch();
 
-  const handleItemChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-    field: keyof Item,
-  ) => {
-    const value =
-      field === 'unitPrice' || field === 'quantity' || field === 'total'
-        ? parseFloat(e.target.value) // Ensure numeric fields are parsed correctly
-        : e.target.value;
+  // const handleItemChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   index: number,
+  //   field: keyof Item,
+  // ) => {
+  //   const value =
+  //     field === 'unitPrice' || field === 'quantity' || field === 'total'
+  //       ? parseFloat(e.target.value) // Ensure numeric fields are parsed correctly
+  //       : e.target.value;
 
-    const newItems = [...watchFormData.invoice.items];
-    newItems[index] = { ...newItems[index], [field]: value } as Item; // Type assertion
-    setValue('invoice.items', newItems);
-  };
+  //   const newItems = [...watchFormData.invoice.items];
+  //   newItems[index] = { ...newItems[index], [field]: value } as Item; // Type assertion
+  //   setValue('invoice.items', newItems);
+  // };
 
   const onSubmit = (data: FormData) => {
     alert('Form submitted successfully!\n' + JSON.stringify(data, null, 2));
