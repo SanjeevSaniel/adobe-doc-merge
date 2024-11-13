@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import MergePage from './Merge/page';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import MergePage from './merge/page';
 
 export default function Home() {
   return (

@@ -12,7 +12,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -25,14 +25,22 @@ const FormSchema = z.object({
 export default function MergePage() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: { bio: '' }, // Ensure initial value is empty
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isTextareaEmpty, setIsTextareaEmpty] = useState(true);
+
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      setIsTextareaEmpty(!value.bio || value.bio.trim() === '');
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
     try {
-      // Ensure the JSON data is correctly formatted
       const jsonDataForMerge = JSON.parse(data.bio);
 
       const response = await fetch('/api/merge', {
@@ -40,7 +48,7 @@ export default function MergePage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(jsonDataForMerge), // Send the parsed JSON data
+        body: JSON.stringify(jsonDataForMerge),
       });
 
       if (response.ok) {
@@ -48,9 +56,8 @@ export default function MergePage() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
 
-        // Extract author and generate a descriptive and unique filename
         const { author } = jsonDataForMerge;
-        const sanitizedAuthor = author.replace(/\s+/g, ''); // Remove spaces from author name
+        const sanitizedAuthor = author.replace(/\s+/g, '');
         const date = new Date().toISOString().split('T')[0];
         const timestamp = new Date().toISOString().replace(/[:.-]/g, '');
         const filename = `Invoice_${sanitizedAuthor}_${date}_${timestamp}.docx`;
@@ -89,6 +96,10 @@ export default function MergePage() {
     }
   }
 
+  function handleReset() {
+    form.reset({ bio: '' });
+  }
+
   return (
     <Form {...form}>
       <form
@@ -104,6 +115,7 @@ export default function MergePage() {
                 <Textarea
                   placeholder='Place your sample JSON data here.'
                   className='resize'
+                  rows={5}
                   {...field}
                 />
               </FormControl>
@@ -111,11 +123,20 @@ export default function MergePage() {
             </FormItem>
           )}
         />
-        <Button
-          type='submit'
-          disabled={isLoading}>
-          {isLoading ? <LoadingIcon /> : 'Submit'}
-        </Button>
+        <div className='flex gap-4'>
+          <Button
+            type='submit'
+            disabled={isLoading}>
+            {isLoading ? <LoadingIcon /> : 'Submit'}
+          </Button>
+          <Button
+            variant='secondary'
+            type='button'
+            onClick={handleReset}
+            disabled={isTextareaEmpty || isLoading}>
+            Reset
+          </Button>
+        </div>
       </form>
     </Form>
   );
