@@ -76,6 +76,8 @@ This endpoint accepts JSON data, merges it with a DOCX template, and returns the
 - **Success**: The merged DOCX file is returned as a downloadable attachment.
 - **Error**: Returns a `500` status code with an error message if the merge fails.
 
+- Deployed endpoint - <https://adobe-doc-merge.vercel.app/api/merge>
+
 ## Environment Variables
 
 This project requires the following environment variables, which should be added to your `.env` file:
