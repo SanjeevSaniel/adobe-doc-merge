@@ -11,7 +11,7 @@ export default function Home() {
         </span>
         <span className='flex gap-2 justify-center items-center text-sm text-gray-600'>
           <span className='text-xs text-gray-400'>using</span>
-          <span className=''>
+          <span className='flex gap-1'>
             <span className='text-[#e63622] font-bold'>Adobe</span> Document
             Generation API
             <span className='text-xs text-amber-600 font-semibold'>SDK</span>
@@ -58,7 +58,31 @@ export default function Home() {
           </Button>
         </a>
       </div>
+
       <MergePage />
+
+      {/* <Tabs
+        defaultValue='account'
+        className='w-[80%] m-auto'>
+        <TabsList className='grid w-full grid-cols-2'>
+          <TabsTrigger value='json'>Json</TabsTrigger>
+          <TabsTrigger value='form'>Form</TabsTrigger>
+        </TabsList>
+        <TabsContent value='json'>
+          <Card>
+            <CardContent className='flex justify-center items-center p-6 h-fit'>
+              <MergePage />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value='form'>
+          <Card>
+            <CardContent className='space-y-2'>
+              <InvoiceForm />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs> */}
     </div>
   );
 }
