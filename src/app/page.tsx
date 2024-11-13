@@ -37,7 +37,7 @@ export default function Home() {
           </span>
         </Link>
       </div>
-      <div className='flex justify-center items-center border w-fit'>
+      <div className='flex justify-center items-center border w-fit m-auto'>
         <a
           href='/receiptTemplate.docx'
           download>
