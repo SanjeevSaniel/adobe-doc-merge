@@ -1,19 +1,20 @@
-import {
-  DocumentMergeJob, // Represents a document merge job
-  DocumentMergeParams, // Parameters for the document merge operation
-  DocumentMergeResult, // Result of the document merge job
-  MimeType, // MIME type constants for different file types
-  OutputFormat, // Output formats for the document merge operation
-  PDFServices, // Main service to interact with Adobe PDF services
-  SDKError, // Main service to interact with Adobe PDF services SDKError, // Error thrown by the SDK
-  ServiceApiError, // Error related to API services
-  ServicePrincipalCredentials, // Credentials for service principal authentication
-  ServiceUsageError, // Error related to service usage limits
-} from '@adobe/pdfservices-node-sdk';
 import { config } from 'dotenv'; // Loads environment variables from a .env file
 import { createReadStream } from 'fs'; // Creates a readable stream for the file system
+import path from 'path'; // Handles file paths
 import { NextResponse } from 'next/server'; // Response helper for Next.js API routes
 import { Readable } from 'stream'; // Stream interface for Node.js
+import {
+  DocumentMergeJob,
+  DocumentMergeParams,
+  DocumentMergeResult,
+  MimeType,
+  OutputFormat,
+  PDFServices,
+  SDKError,
+  ServiceApiError,
+  ServicePrincipalCredentials,
+  ServiceUsageError,
+} from '@adobe/pdfservices-node-sdk';
 
 config(); // Load environment variables
 
@@ -34,9 +35,12 @@ export async function POST(request: Request) {
     const jsonDataForMerge = await request.json(); // Read JSON from request body
 
     // Adjusted file path
-    readStream = createReadStream(
-      'public/receiptTemplate.docx',
-    ) as unknown as Readable;
+    const templatePath = path.join(
+      process.cwd(),
+      'public',
+      'receiptTemplate.docx',
+    );
+    readStream = createReadStream(templatePath) as unknown as Readable;
     const inputAsset = await pdfServices.upload({
       readStream,
       mimeType: MimeType.DOCX,
