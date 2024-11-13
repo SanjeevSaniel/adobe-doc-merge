@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 
     // Adjusted file path
     readStream = createReadStream(
-      'src/app/assets/receiptTemplate.docx',
+      '/receiptTemplate.docx',
     ) as unknown as Readable;
     const inputAsset = await pdfServices.upload({
       readStream,

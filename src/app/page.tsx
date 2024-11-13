@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import MergePage from './Merge/page';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
@@ -35,6 +36,27 @@ export default function Home() {
             GitHub Repository
           </span>
         </Link>
+      </div>
+      <div className='flex justify-center items-center border w-fit'>
+        <a
+          href='/receiptTemplate.docx'
+          download>
+          <Button
+            variant='link'
+            className='px-2 py-1 text-orange-600 rounded-lg'>
+            Download Sample Template
+          </Button>
+        </a>
+        |
+        <a
+          href='/receipt.json'
+          download>
+          <Button
+            variant='link'
+            className='px-2 py-1 text-orange-600 rounded-lg'>
+            Download Sample JSON
+          </Button>
+        </a>
       </div>
       <MergePage />
     </div>
