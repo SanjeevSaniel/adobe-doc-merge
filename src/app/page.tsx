@@ -59,7 +59,11 @@ export default function Home() {
         </a>
       </div>
 
-      <MergePage />
+      <div className='flex justify-between items-center'>
+        <div className='w-fit m-auto'>
+          <MergePage />
+        </div>
+      </div>
 
       {/* <Tabs
         defaultValue='account'

@@ -130,7 +130,7 @@ export default function MergePage() {
     <Form {...form}>
       <form
         // onSubmit={form.handleSubmit(onSubmit)}
-        className='w-2/3 space-y-6'>
+        className='w-full space-y-6'>
         <FormField
           control={form.control}
           name='bio'
@@ -142,6 +142,7 @@ export default function MergePage() {
                   placeholder='Place your sample JSON data here.'
                   className='resize'
                   rows={5}
+                  // cols={10}
                   {...field}
                 />
               </FormControl>
