@@ -1,0 +1,57 @@
+{
+  "author": "Gary Lee",
+  "ServiceReceipt": {
+    "Date": "04/12/2021",
+    "ReceiptNo": "12345678",
+    "PaymentMethod": "Credit Card",
+    "CardType": "MasterCard",
+    "CardNo": "1232-xxxx-1121",
+    "ExpDate": "02/23/2025",
+    "ChequeNo": "",
+    "Currency": "$",
+    "ServiceTax": 5,
+    "Services": [
+      {
+        "Hrs": 5,
+        "PORef": "12121",
+        "Description": "This is a sample description for Service 1",
+        "Rate": 200,
+        "ExtendedTotal": 1000
+      },
+      {
+        "Hrs": 2,
+        "PORef": "14321",
+        "Description": "This is a sample description for Service 2",
+        "Rate": 300,
+        "ExtendedTotal": 600
+      },
+      {
+        "Hrs": 4,
+        "PORef": "43212",
+        "Description": "This is a sample description for Service 3",
+        "Rate": 400,
+        "ExtendedTotal": 1600
+      }
+    ]
+  },
+  "Company": {
+    "Name": "XYZ Enterprises",
+    "Address": {
+      "Line1": "1432 XXX Rd",
+      "Line2": "Opposite YYY Street",
+      "City": "Some City 1",
+      "State": "Some State 1",
+      "Zip": "11xxxx"
+    }
+  },
+  "Customer": {
+    "Name": "Johhny",
+    "Address": {
+      "Line1": "1312 SSS Rd",
+      "Line2": "Near QQQ Street",
+      "City": "Some City 2",
+      "State": "Some State 2",
+      "Zip": "11xxxx"
+    }
+  }
+}
