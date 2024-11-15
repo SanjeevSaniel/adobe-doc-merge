@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import { createReadStream } from 'fs';
+import { createReadStream, readFileSync } from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
 import { Readable } from 'stream';
@@ -29,14 +29,41 @@ export async function POST(request: Request) {
 
     const pdfServices = new PDFServices({ credentials });
 
-    const jsonDataForMerge = await request.json();
+    const requestBody = await request.json();
+
+    // Ensure that data and template fields are present
+    const { data, template } = requestBody;
+    if (!data || !template) {
+      return new NextResponse('Invalid input: data and template are required', {
+        status: 400,
+      });
+    }
+
+    let jsonDataForMerge;
+    try {
+      jsonDataForMerge = JSON.parse(data); // Parse JSON data
+    } catch (error) {
+      console.error('Invalid JSON data', error);
+      return new NextResponse('Invalid JSON data', { status: 400 });
+    }
 
     const templatePath = path.join(
       process.cwd(),
       'public',
       'sampletemplates',
-      'receiptTemplate.docx',
+      template,
     );
+
+    // Validate if the template exists and is readable
+    try {
+      readFileSync(templatePath);
+    } catch (error) {
+      console.error('Template file not found or unreadable:', error); // Log the error
+      return new NextResponse('Template file not found or unreadable', {
+        status: 400,
+      });
+    }
+
     readStream = createReadStream(templatePath) as unknown as Readable;
     const inputAsset = await pdfServices.upload({
       readStream,
@@ -45,7 +72,7 @@ export async function POST(request: Request) {
 
     const params = new DocumentMergeParams({
       jsonDataForMerge,
-      outputFormat: OutputFormat.PDF,
+      outputFormat: OutputFormat.PDF, // For generating PDF files
     });
 
     const job = new DocumentMergeJob({ inputAsset, params });

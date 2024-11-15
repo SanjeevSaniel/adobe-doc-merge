@@ -1,8 +1,8 @@
-import { config } from 'dotenv'; // Loads environment variables from a .env file
-import { createReadStream } from 'fs'; // Creates a readable stream for the file system
-import path from 'path'; // Handles file paths
-import { NextResponse } from 'next/server'; // Response helper for Next.js API routes
-import { Readable } from 'stream'; // Stream interface for Node.js
+import { config } from 'dotenv';
+import { createReadStream, readFileSync } from 'fs';
+import path from 'path';
+import { NextResponse } from 'next/server';
+import { Readable } from 'stream';
 import {
   DocumentMergeJob,
   DocumentMergeParams,
@@ -16,47 +16,67 @@ import {
   ServiceUsageError,
 } from '@adobe/pdfservices-node-sdk';
 
-config(); // Load environment variables
+config();
 
 export async function POST(request: Request) {
   let readStream: Readable | undefined;
   try {
-    // Create service principal credentials
     const credentials = new ServicePrincipalCredentials({
       clientId: process.env.PDF_SERVICES_CLIENT_ID,
       clientSecret: process.env.PDF_SERVICES_CLIENT_SECRET,
       organizationId: process.env.PDF_SERVICES_ORGANIZATION_ID,
     });
 
-    // Initialize PDF services
     const pdfServices = new PDFServices({ credentials });
 
-    // Read JSON from request body
-    const jsonDataForMerge = await request.json(); // Read JSON from request body
+    const requestBody = await request.json();
 
-    // Adjusted file path
+    // Ensure that data and template fields are present
+    const { data, template } = requestBody;
+    if (!data || !template) {
+      return new NextResponse('Invalid input: data and template are required', {
+        status: 400,
+      });
+    }
+
+    let jsonDataForMerge;
+    try {
+      jsonDataForMerge = JSON.parse(data); // Parse JSON data
+    } catch (error) {
+      console.error('Invalid JSON data', error);
+      return new NextResponse('Invalid JSON data', { status: 400 });
+    }
+
     const templatePath = path.join(
       process.cwd(),
       'public',
       'sampletemplates',
-      'receiptTemplate.docx',
+      template,
     );
+
+    // Validate if the template exists and is readable
+    try {
+      readFileSync(templatePath);
+    } catch (error) {
+      console.error('Template file not found or unreadable:', error); // Log the error
+      return new NextResponse('Template file not found or unreadable', {
+        status: 400,
+      });
+    }
+
     readStream = createReadStream(templatePath) as unknown as Readable;
     const inputAsset = await pdfServices.upload({
       readStream,
       mimeType: MimeType.DOCX,
     });
 
-    // Set document merge parameters
     const params = new DocumentMergeParams({
       jsonDataForMerge,
-      outputFormat: OutputFormat.DOCX,
+      outputFormat: OutputFormat.DOCX, // For generating DOCX files
     });
 
-    // Create and submit the document merge job
     const job = new DocumentMergeJob({ inputAsset, params });
 
-    // Retrieve the result of the document merge job
     const pollingURL = await pdfServices.submit({ job });
     const pdfServicesResponse = await pdfServices.getJobResult({
       pollingURL,
@@ -66,7 +86,6 @@ export async function POST(request: Request) {
     const resultAsset = pdfServicesResponse.result.asset;
     const streamAsset = await pdfServices.getContent({ asset: resultAsset });
 
-    // Read the resulting file into a buffer
     const mergedFileBuffer = await new Promise<Buffer>((resolve, reject) => {
       const chunks: Uint8Array[] = [];
       streamAsset.readStream.on('data', (chunk: Uint8Array) =>
@@ -76,11 +95,9 @@ export async function POST(request: Request) {
       streamAsset.readStream.on('error', reject);
     });
 
-    // Generate a unique file name using a timestamp
     const timestamp = new Date().toISOString().replace(/[:.-]/g, '');
     const filename = `mergedOutput_${timestamp}.docx`;
 
-    // Return the merged file in the response
     return new NextResponse(mergedFileBuffer, {
       headers: {
         'Content-Disposition': `attachment; filename="${filename}"`,
@@ -89,7 +106,6 @@ export async function POST(request: Request) {
       },
     });
   } catch (err) {
-    // Handle various errors
     if (err instanceof SDKError) {
       console.error('SDKError encountered:', err);
     } else if (err instanceof ServiceUsageError) {
@@ -101,7 +117,6 @@ export async function POST(request: Request) {
     }
     return new NextResponse('Failed to merge DOCX files', { status: 500 });
   } finally {
-    // Cleanup read stream
     if (
       readStream &&
       'destroy' in readStream &&
