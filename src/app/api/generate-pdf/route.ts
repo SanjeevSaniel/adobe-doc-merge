@@ -39,13 +39,7 @@ export async function POST(request: Request) {
       });
     }
 
-    let jsonDataForMerge;
-    try {
-      jsonDataForMerge = JSON.parse(data); // Parse JSON data
-    } catch (error) {
-      console.error('Invalid JSON data', error);
-      return new NextResponse('Invalid JSON data', { status: 400 });
-    }
+    const jsonDataForMerge = data; // Use the structured JSON data directly
 
     const templatePath = path.join(
       process.cwd(),
