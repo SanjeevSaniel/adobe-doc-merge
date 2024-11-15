@@ -130,7 +130,7 @@ export default function MergePage() {
     <Form {...form}>
       <form
         // onSubmit={form.handleSubmit(onSubmit)}
-        className='w-full space-y-6'>
+        className='w-9/10 space-y-6'>
         <FormField
           control={form.control}
           name='bio'
@@ -157,7 +157,7 @@ export default function MergePage() {
               form.handleSubmit((data) =>
                 handleDownload({
                   data,
-                  endpoint: '/api/merge',
+                  endpoint: '/api/generate-docx',
                   fileExtension: 'docx',
                 }),
               )()
