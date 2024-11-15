@@ -1,10 +1,18 @@
-# Doc-Gen-Next
+# Document Generation API
 
-This project demonstrates how to merge DOCX files using the Adobe PDF Services API in a Next.js application. The project includes a form where users can input JSON data, which is then used to merge and generate DOCX and PDF files
+This project provides endpoints for generating DOCX and PDF documents using Adobe PDF Services. Users can select a template, provide data, and receive a generated document based on their inputs. 
+
+## Features
+
+- Generate DOCX and PDF files.
+- Select from multiple templates.
+- Provide custom data for document generation.
+- Download documents with meaningful filenames.
 
 ## Table of Contents
 
-- [Doc-Gen-Next](#doc-gen-next)
+- [Document Generation API](#document-generation-api)
+  - [Features](#features)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -46,7 +54,7 @@ This project demonstrates how to merge DOCX files using the Adobe PDF Services A
    npm run dev
 2. Navigate to the Application: Open your browser and navigate to
 
-   <http://localhost:3000/merge>
+   <http://localhost:3000>
 
 3. Input JSON Data: Paste your JSON data into the textarea provided in the form.
 
@@ -67,8 +75,8 @@ This project demonstrates how to merge DOCX files using the Adobe PDF Services A
 
     ```json
     {
-      "author": "Author Name",
-      "other": "Your other JSON data here"
+      "data": "Sample_Json_Data",
+      "template": "Template_File_Name"
     }
 
 #### Response
