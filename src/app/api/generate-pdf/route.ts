@@ -34,6 +34,7 @@ export async function POST(request: Request) {
     const templatePath = path.join(
       process.cwd(),
       'public',
+      'sampletemplates',
       'receiptTemplate.docx',
     );
     readStream = createReadStream(templatePath) as unknown as Readable;
