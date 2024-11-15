@@ -22,15 +22,26 @@ const FormSchema = z.object({
   }),
 });
 
+// Define types for form data 
+type FormData = z.infer<typeof FormSchema>;
+
+interface HandleDownloadParams {
+  data: FormData;
+  endpoint: string;
+  fileExtension: 'docx' | 'pdf';
+}
+
 export default function MergePage() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: { bio: '' }, // Ensure initial value is empty
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isTextareaEmpty, setIsTextareaEmpty] = useState(true);
+  const [isDocxLoading, setIsDocxLoading] = useState(false); // State for DOCX loading status
+  const [isPdfLoading, setIsPdfLoading] = useState(false); // State for PDF loading status
+  const [isTextareaEmpty, setIsTextareaEmpty] = useState(true); // State for checking if textarea is empty
 
+  // Effect to watch form changes and update isTextareaEmpty state
   useEffect(() => {
     const subscription = form.watch((value) => {
       setIsTextareaEmpty(!value.bio || value.bio.trim() === '');
@@ -38,12 +49,21 @@ export default function MergePage() {
     return () => subscription.unsubscribe();
   }, [form]);
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true);
+  async function handleDownload({
+    data,
+    endpoint,
+    fileExtension,
+  }: HandleDownloadParams) {
+   if (fileExtension === 'docx') {
+     setIsDocxLoading(true);
+   } else {
+     setIsPdfLoading(true);
+   }
+    
     try {
       const jsonDataForMerge = JSON.parse(data.bio);
 
-      const response = await fetch('/api/merge', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,15 +79,15 @@ export default function MergePage() {
         const { author } = jsonDataForMerge;
         const sanitizedAuthor = author.replace(/\s+/g, '');
         const date = new Date().toISOString().split('T')[0];
-        const timestamp = new Date().toISOString().replace(/[:.-]/g, '');
-        const filename = `Invoice_${sanitizedAuthor}_${date}_${timestamp}.docx`;
+        const timestamp = new Date().toISOString().replace(/[:.-]/g, ''); // Generate timestamp
+        const filename = `Invoice_${sanitizedAuthor}_${date}_${timestamp}.${fileExtension}`;
 
         a.style.display = 'none';
         a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
+        a.download = filename; // Set download attribute with filename
+        document.body.appendChild(a); // Append link to the body
+        a.click(); // Trigger click to start download
+        window.URL.revokeObjectURL(url); // Revoke the object URL
 
         toast({
           title: 'File downloaded successfully!',
@@ -80,6 +100,7 @@ export default function MergePage() {
         });
       }
     } catch (error) {
+      // Handle errors
       if (error instanceof Error) {
         toast({
           title: 'Error',
@@ -92,10 +113,15 @@ export default function MergePage() {
         });
       }
     } finally {
-      setIsLoading(false);
+      if (fileExtension === 'docx') {
+        setIsDocxLoading(false);
+      } else {
+        setIsPdfLoading(false);
+      }
     }
   }
 
+  // Function to reset form
   function handleReset() {
     form.reset({ bio: '' });
   }
@@ -103,7 +129,7 @@ export default function MergePage() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        // onSubmit={form.handleSubmit(onSubmit)}
         className='w-2/3 space-y-6'>
         <FormField
           control={form.control}
@@ -125,15 +151,38 @@ export default function MergePage() {
         />
         <div className='flex gap-4'>
           <Button
-            type='submit'
-            disabled={isLoading}>
-            {isLoading ? <LoadingIcon /> : 'Submit'}
+            type='button'
+            onClick={() =>
+              form.handleSubmit((data) =>
+                handleDownload({
+                  data,
+                  endpoint: '/api/merge',
+                  fileExtension: 'docx',
+                }),
+              )()
+            }
+            disabled={isDocxLoading}>
+            {isDocxLoading ? <LoadingIcon /> : 'Download DOCX'}
+          </Button>
+          <Button
+            type='button'
+            onClick={() =>
+              form.handleSubmit((data) =>
+                handleDownload({
+                  data,
+                  endpoint: '/api/generate-pdf',
+                  fileExtension: 'pdf',
+                }),
+              )()
+            }
+            disabled={isPdfLoading}>
+            {isPdfLoading ? <LoadingIcon /> : 'Download PDF'}
           </Button>
           <Button
             variant='secondary'
             type='button'
             onClick={handleReset}
-            disabled={isTextareaEmpty || isLoading}>
+            disabled={isTextareaEmpty || isDocxLoading || isPdfLoading}>
             Reset
           </Button>
         </div>
