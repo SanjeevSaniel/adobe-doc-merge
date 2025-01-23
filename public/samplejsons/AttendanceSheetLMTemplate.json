@@ -1,0 +1,48 @@
+{
+  "author": "Gary Lee",
+  "Date": "January 15, 2021",
+  "Presenter": "Kroti Miyagi",
+  "AgendaListItems": [
+    {
+      "AgendaListItem": "This is the first agenda list item"
+    },
+    {
+      "AgendaListItem": "This is the second agenda list item"
+    },
+    {
+      "AgendaListItem": "This is the third agenda list item"
+    },
+    {
+      "AgendaListItem": "This is the fourth agenda list item"
+    },
+    {
+      "AgendaListItem": "This is the fifth agenda list item"
+    }
+  ],
+  "Employee": [
+    {
+      "Name": "Ave Spieck",
+      "Title": "Accounting Manager",
+      "ID": 298,
+      "Email": "alestorb@vog.ua"
+    },
+    {
+      "Name": "Rochette Newell",
+      "Title": "Human Resources Lead",
+      "ID": 947,
+      "Email": "rnewell@vog.ua"
+    },
+    {
+      "Name": "Oralia Baser",
+      "Title": "Business Development Lead",
+      "ID": 541,
+      "Email": "obaserq@vog.ua"
+    },
+    {
+      "Name": "Lazarus Basterfield",
+      "Title": "Research and Development Trainee",
+      "ID": 1087,
+      "Email": "lbasterfield6@vog.ua"
+    }
+  ]
+}
