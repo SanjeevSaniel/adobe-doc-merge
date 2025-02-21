@@ -1,0 +1,351 @@
+{
+    "arms": [
+        {
+            "ArmGroupLabel": "Modified FOLFIRINOXs",
+            "ArmCost": 575,
+            "SOAAllProceduresInput": [
+                "Hematology",
+                "Physical examination",
+                "Blood work"
+            ],
+            "SOATimelineInput": [
+                {
+                    "visit": "Pre-Screening",
+                    "dayweek": "D1",
+                    "procedures": [
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Hematology",
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurecost": "$75",
+                            "procedurename": "Physical examination",
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurecost": "$100",
+                            "procedurename": "Blood work",
+                            "expectedtime": "--"
+                        }
+                    ]
+                },
+                {
+                    "visit": "EOS",
+                    "dayweek": "D1",
+                    "procedures": [
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Hematology",
+                            "expectedtime": "--"
+                        }
+                    ]
+                }
+            ],
+            "SOATableInput": [
+                {
+                    "visit": "Pre-Screening",
+                    "dayweek": "D1",
+                    "visitwindow": "±",
+                    "categoryname": "Treatment",
+                    "procedures": [
+                        {
+                            "procedurename": "Hematology",
+                            "value": 1,
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurename": "Physical examination",
+                            "value": 1,
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurename": "Blood work",
+                            "value": 1,
+                            "expectedtime": "--"
+                        }
+                    ]
+                },
+                {
+                    "visit": "EOS",
+                    "dayweek": "D1",
+                    "visitwindow": "±",
+                    "categoryname": "Treatment",
+                    "procedures": [
+                        {
+                            "procedurename": "Hematology",
+                            "value": 1,
+                            "expectedtime": "--"
+                        }
+                    ]
+                }
+            ],
+            "Visits": [
+                {
+                    "VisitName": "Pre-Screening",
+                    "VisitCost": 375,
+                    "Category": "Treatment",
+                    "DurationType": "Day",
+                    "Duration": 1,
+                    "ProcedureList": [
+                        {
+                            "ProcedureName": "Hematology",
+                            "ProcedureCost": 200,
+                            "Value": 1
+                        },
+                        {
+                            "ProcedureName": "Physical examination",
+                            "ProcedureCost": 75,
+                            "Value": 1
+                        },
+                        {
+                            "ProcedureName": "Blood work",
+                            "ProcedureCost": 100,
+                            "Value": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "ArmGroupLabel": "Modified within pulse HRs",
+            "ArmCost": 800,
+            "SOAAllProceduresInput": [
+                "Immunogenicity",
+                "Randomizations",
+                "Immunogenicity visit 2",
+                "Randomizations visit 2"
+            ],
+            "SOATimelineInput": [
+                {
+                    "visit": "Screening",
+                    "dayweek": "D7",
+                    "procedures": [
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Immunogenicity",
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Randomizations",
+                            "expectedtime": "--"
+                        }
+                    ]
+                },
+                {
+                    "visit": "Visit -2",
+                    "dayweek": "D28",
+                    "procedures": [
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Immunogenicity visit 2",
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Randomizations visit 2",
+                            "expectedtime": "--"
+                        }
+                    ]
+                }
+            ],
+            "SOATableInput": [
+                {
+                    "visit": "Screening",
+                    "dayweek": "D7",
+                    "visitwindow": "±",
+                    "categoryname": "Screening",
+                    "procedures": [
+                        {
+                            "procedurename": "Immunogenicity",
+                            "value": 1,
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurename": "Randomizations",
+                            "value": 1,
+                            "expectedtime": "--"
+                        }
+                    ]
+                },
+                {
+                    "visit": "Visit -2",
+                    "dayweek": "D28",
+                    "visitwindow": "±",
+                    "categoryname": "Follow-up",
+                    "procedures": [
+                        {
+                            "procedurename": "Immunogenicity visit 2",
+                            "value": 1,
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurename": "Randomizations visit 2",
+                            "value": 1,
+                            "expectedtime": "--"
+                        }
+                    ]
+                }
+            ],
+            "Visits": [
+                {
+                    "VisitName": "Screening",
+                    "VisitCost": 400,
+                    "Category": "Screening",
+                    "DurationType": "Day",
+                    "Duration": 7,
+                    "ProcedureList": [
+                        {
+                            "ProcedureName": "Immunogenicity",
+                            "ProcedureCost": 200,
+                            "Value": 1
+                        },
+                        {
+                            "ProcedureName": "Randomizations",
+                            "ProcedureCost": 200,
+                            "Value": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "ArmGroupLabel": "Participant take insulins",
+            "ArmCost": 1750,
+            "SOAAllProceduresInput": [
+                "Immunogenicity",
+                "Categorization",
+                "Immunogenicity Screening",
+                "Randomizations Screening"
+            ],
+            "SOATimelineInput": [
+                {
+                    "visit": "Pre-Screening",
+                    "dayweek": "D3",
+                    "procedures": [
+                        {
+                            "procedurecost": "$300",
+                            "procedurename": "Immunogenicity",
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurecost": "$650",
+                            "procedurename": "Categorization",
+                            "expectedtime": "--"
+                        }
+                    ]
+                },
+                {
+                    "visit": "Screening",
+                    "dayweek": "D28",
+                    "procedures": [
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Immunogenicity Screening",
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Randomizations Screening",
+                            "expectedtime": "--"
+                        }
+                    ]
+                },
+                {
+                    "visit": "Recovery",
+                    "dayweek": "D28",
+                    "procedures": [
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Immunogenicity Screening",
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurecost": "$200",
+                            "procedurename": "Randomizations Screening",
+                            "expectedtime": "--"
+                        }
+                    ]
+                }
+            ],
+            "SOATableInput": [
+                {
+                    "visit": "Pre-Screening",
+                    "dayweek": "D3",
+                    "visitwindow": "±",
+                    "categoryname": "Screening",
+                    "procedures": [
+                        {
+                            "procedurename": "Immunogenicity",
+                            "value": 1,
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurename": "Categorization",
+                            "value": 1,
+                            "expectedtime": "--"
+                        }
+                    ]
+                },
+                {
+                    "visit": "Screening",
+                    "dayweek": "D28",
+                    "visitwindow": "±",
+                    "categoryname": "Follow-up",
+                    "procedures": [
+                        {
+                            "procedurename": "Immunogenicity Screening",
+                            "value": 1,
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurename": "Randomizations Screening",
+                            "value": 1,
+                            "expectedtime": "--"
+                        }
+                    ]
+                },
+                {
+                    "visit": "Recovery",
+                    "dayweek": "D28",
+                    "visitwindow": "±",
+                    "categoryname": "Follow-up",
+                    "procedures": [
+                        {
+                            "procedurename": "Immunogenicity Screening",
+                            "value": 1,
+                            "expectedtime": "--"
+                        },
+                        {
+                            "procedurename": "Randomizations Screening",
+                            "value": 1,
+                            "expectedtime": "--"
+                        }
+                    ]
+                }
+            ],
+            "Visits": [
+                {
+                    "VisitName": "Pre-Screening",
+                    "VisitCost": 950,
+                    "Category": "Screening",
+                    "DurationType": "Day",
+                    "Duration": 3,
+                    "ProcedureList": [
+                        {
+                            "ProcedureName": "Immunogenicity",
+                            "ProcedureCost": 300,
+                            "Value": 1
+                        },
+                        {
+                            "ProcedureName": "Categorization",
+                            "ProcedureCost": 650,
+                            "Value": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
