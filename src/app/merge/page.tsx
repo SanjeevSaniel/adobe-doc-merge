@@ -21,7 +21,7 @@ const FormSchema = z.object({
   jsonData: z.string().min(10, {
     message: 'Sample JSON data is required',
   }),
-  template: z.string().nonempty(), // Ensure a template is selected
+  template: z.string(), // Ensure a template is selected
 });
 
 // Define types for form data
@@ -252,7 +252,7 @@ export default function MergePage() {
   );
 }
 
-function LoadingIcon() {
+export function LoadingIcon() {
   return (
     <svg
       className='animate-spin h-5 w-5 mr-3 text-white'
