@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Header from '../header';
-import { LoadingIcon } from '../merge/page';
+import { LoadingIcon } from '@/components/LoadingIcon';
 
 const FormSchema = z.object({
   jsonData: z.string().min(10, {
